@@ -44,7 +44,7 @@ object ModelData extends SimpleTestSuite {
    *       It is played (let simplify) between two players with
    *       a standard Italian 40-card deck, divided into four suits: Cups, Golds, Swords, Clubs.
    *       The values on the cards range numerically from one through seven,
-   *       plus three face cards in each suit: Knight (worth 8), Queent (worth 9) and King (worth 10).
+   *       plus three face cards in each suit: Knight (worth 8), Queen (worth 9) and King (worth 10).
    *       Each player receives three cards. The dealer will also place four cards face up on the table.
    *
    * ADD YOUR CODE HERE INSIDE THE OBJECT
@@ -56,6 +56,52 @@ object ModelData extends SimpleTestSuite {
     ignore("build the table w/ 4 of Clubs, 10 of Swords, 8 of Golds and 1 of Swords")
     ignore("build the deck w/ only 1 of Swords and 10 of Clubs")
     ignore("build the game")
+
+    sealed trait Suit
+    case object Cups extends Suit
+    case object Golds extends Suit
+    case object Swords extends Suit
+    case object Clubs extends Suit
+
+    sealed trait Value
+    case object One extends Value
+    case object Two extends Value
+    case object Three extends Value
+    case object Four extends Value
+    case object Five extends Value
+    case object Six extends Value
+    case object Seven extends Value
+    case object Knight extends Value
+    case object Queen extends Value
+    case object King extends Value
+
+    case class Card(value: Value, suit: Suit)
+    case class Deck(cards: List[Card])
+    case class Table(cards: List[Card])
+    case class Player(cards: List[Card])
+    case class Game(deck: Deck, table: Table, player1: Player, player2: Player)
+
+    def value(v: Value) = v match {
+      case One => 1
+      case Two => 2
+      case Three => 3
+      case Four => 4
+      case Five => 5
+      case Six => 6
+      case Seven => 7
+      case Knight => 8
+      case Queen => 9
+      case King => 10
+    }
+
+    val table: Table = new Table(List())
+    val player1: Player = Player(List(Card(Two, Golds), Card(Five, Swords), Card(Seven, Clubs)))
+    val player2: Player = Player(List(Card(One, Cups), Card(Two, Clubs), Card(Queen, Golds)))
+    val deck: Deck = Deck(List(Card(One, Swords), Card(King, Clubs)))
+    val game: Game = Game(deck, table, player1, player2)
+    print(game.deck)
+    print(value(One))
     () // don't delete
   }
+
 }
