@@ -16,7 +16,8 @@ object BuiltinTryTests extends SimpleTestSuite {
   import scala.util.{Failure, Success, Try}
 
   case class Qty(value: Int)
-  case class InvalidQtyException(value: String) extends RuntimeException(s"not an int: $value")
+
+  case class InvalidQtyException(value: String) extends RuntimeException(s"invalid quantity value: $value")
 
   def toQty(value: String): Try[Qty] =
     if (value.matches("^[0-9]+$")) Success(Qty(value.toInt))

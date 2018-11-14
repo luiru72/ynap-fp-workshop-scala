@@ -19,7 +19,7 @@ object BuiltinTryTests extends SimpleTestSuite {
 
   case class Qty(value: Int)
 
-  case class InvalidQtyException(value: String) extends RuntimeException(s"not an int: $value")
+  case class InvalidQtyException(value: String) extends RuntimeException(s"invalid quantity value: $value")
 
   def toQty(value: String): Qty =
     if (value.matches("^[0-9]+$")) Qty(value.toInt)

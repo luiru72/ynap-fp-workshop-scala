@@ -19,7 +19,7 @@ object BuiltinEitherTests extends SimpleTestSuite {
 
   case class Qty(value: Int)
 
-  case class InvalidQtyException(value: String) extends RuntimeException(s"not an int: $value")
+  case class InvalidQtyException(value: String) extends RuntimeException(s"invalid quantity value: $value")
 
   def toQty(value: String): Qty =
     if (value.matches("^[0-9]+$")) Qty(value.toInt)
@@ -30,9 +30,9 @@ object BuiltinEitherTests extends SimpleTestSuite {
   }
 
   test("invalid qty") {
-    assertEquals(toQty("asd"), null)
-    assertEquals(toQty("1 0 0"), null)
-    assertEquals(toQty(""), null)
-    assertEquals(toQty("-10"), null)
+    intercept[InvalidQtyException] { toQty("asd"); () }
+    intercept[InvalidQtyException] { toQty("1 0 0"); () }
+    intercept[InvalidQtyException] { toQty(""); () }
+    intercept[InvalidQtyException] { toQty("-10"); () }
   }
 }
