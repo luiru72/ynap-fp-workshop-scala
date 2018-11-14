@@ -11,7 +11,7 @@ import minitest._
  *  f:  InType => Effect[OutType]
  */
 
-object CustomGenericMaybeTests extends SimpleTestSuite {
+object CustomPolymorphicMaybeTests extends SimpleTestSuite {
 
   sealed trait Maybe[+A]
   case class Yeah[A](value: A) extends Maybe[A]
