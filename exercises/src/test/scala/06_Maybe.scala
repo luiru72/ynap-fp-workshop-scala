@@ -19,18 +19,23 @@ object MaybeTests extends SimpleTestSuite {
 
   case class Qty(value: Int)
 
-  def toQty(value: String): Qty =
-    if (value.matches("^[0-9]+$")) Qty(value.toInt)
-    else null
+  sealed trait FQty[+A]
+  case class ValidQty[A](qty: Qty) extends FQty[A]
+  case object InvalidQty extends FQty[Nothing]
+
+  def toQty(value: String): FQty[Qty] =
+    if (value.matches("^[0-9]+$")) ValidQty(Qty(value.toInt))
+    else InvalidQty
 
   test("valid qty") {
-    assertEquals(toQty("100"), Qty(100))
+    assertEquals(toQty("100"), ValidQty(Qty(100)))
   }
 
   test("invalid qty") {
-    assertEquals(toQty("asd"), null)
-    assertEquals(toQty("1 0 0"), null)
-    assertEquals(toQty(""), null)
-    assertEquals(toQty("-10"), null)
+    assertEquals(toQty("asd"), InvalidQty)
+    assertEquals(toQty("1 0 0"), InvalidQty)
+    assertEquals(toQty(""), InvalidQty)
+    assertEquals(toQty("-10"), InvalidQty)
   }
+
 }
